@@ -3,6 +3,11 @@
 node_modules
 coverage
 playwright-report
+playwright/.cache
 test-results
+evals/output
 .env*
 senior ai.pdf
+*.log
+*.tsbuildinfo
+.DS_Store
