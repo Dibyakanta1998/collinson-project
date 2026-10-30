@@ -1,0 +1,24 @@
+@use 'colors' as *;
+
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 960px) {
+    @content;
+  }
+}
+
+@mixin focus-ring {
+  outline: 3px solid $ring;
+  outline-offset: 2px;
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

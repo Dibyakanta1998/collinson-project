@@ -1,0 +1,200 @@
+@use '../../styles/colors' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.header {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow {
+  color: $primary;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.title,
+.subtitle,
+.disclaimer {
+  margin: 0;
+}
+
+.disclaimer {
+  color: $muted-foreground;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+
+  @include desktop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.panel {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid $border;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  color: $foreground;
+  background: $card;
+}
+
+.textarea {
+  min-height: 90px;
+}
+
+.checkboxList {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.checkbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-height: 44px;
+}
+
+.actions,
+.exampleRow,
+.approvalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.button,
+.secondary {
+  min-height: 44px;
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button {
+  background: $primary;
+  color: $on-primary;
+}
+
+.secondary {
+  background: $muted;
+  color: $foreground;
+}
+
+.danger {
+  background: $destructive;
+  color: $on-destructive;
+}
+
+.success {
+  background: $accent;
+  color: $on-accent;
+}
+
+.button:focus-visible,
+.secondary:focus-visible,
+.input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible {
+  @include focus-ring;
+}
+
+.errorSummary {
+  background: $danger-surface;
+  border: 1px solid $destructive;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.covered {
+  background: $success-surface;
+  color: $accent;
+}
+
+.review {
+  background: $warning-surface;
+  color: $warning;
+}
+
+.failed,
+.declined {
+  background: $danger-surface;
+  color: $destructive;
+}
+
+.running {
+  background: $info-surface;
+  color: $primary;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.event {
+  border-left: 3px solid $secondary;
+  padding: 0.35rem 0 0.35rem 0.75rem;
+}
+
+.muted {
+  color: $muted-foreground;
+}
+
+@include reduced-motion {
+  .event {
+    transition: none;
+  }
+}

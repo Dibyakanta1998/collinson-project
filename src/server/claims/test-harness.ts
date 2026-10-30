@@ -1,14 +1,11 @@
-import likelyCovered from '../../../fixtures/claims/likely-covered.json';
-import missingReceipts from '../../../fixtures/claims/missing-receipts.json';
-
-import type { ClaimInput } from '@/domain/types';
+import { coveredExample, missingReceiptsExample } from '@/content/examples';
 import { MemoryClaimsRepository } from '@/server/claims/memory-repository';
 import { DeterministicClaimRunner } from '@/server/claims/deterministic-runner';
 import { ClaimService } from '@/server/claims/service';
 import type { ClaimStatus, StoredClaim } from '@/server/db/claims-repository';
 
-export const likelyCoveredClaim = likelyCovered as ClaimInput;
-export const missingReceiptsClaim = missingReceipts as ClaimInput;
+export const likelyCoveredClaim = coveredExample;
+export const missingReceiptsClaim = missingReceiptsExample;
 
 export function createTestClaimService() {
   return new ClaimService(new MemoryClaimsRepository(), new DeterministicClaimRunner());

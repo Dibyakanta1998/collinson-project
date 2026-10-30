@@ -3,6 +3,7 @@ import { PgClaimsRepository } from '@/server/db/claims-repository';
 
 import { DeterministicClaimRunner } from './deterministic-runner';
 import { MastraClaimRunner } from './mastra-runner';
+import { MemoryClaimsRepository } from './memory-repository';
 import { ClaimService } from './service';
 
 declare global {
@@ -19,7 +20,10 @@ export function getClaimService(): ClaimService {
   const runner = usesLiveAgents()
     ? new MastraClaimRunner()
     : new DeterministicClaimRunner();
-  global.claimLensService = new ClaimService(new PgClaimsRepository(getPool()), runner);
+  const repository = process.env.DATABASE_URL
+    ? new PgClaimsRepository(getPool())
+    : new MemoryClaimsRepository();
+  global.claimLensService = new ClaimService(repository, runner);
   return global.claimLensService;
 }
 

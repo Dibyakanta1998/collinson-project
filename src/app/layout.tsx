@@ -1,18 +1,25 @@
 import type { Metadata } from 'next';
+import { IBM_Plex_Sans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-import { APP_CONTENT } from '@/content/app';
+import { WORKSPACE_CONTENT } from '@/content/workspace';
 
 import './globals.scss';
 
+const font = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: APP_CONTENT.name,
-  description: APP_CONTENT.description,
+  title: WORKSPACE_CONTENT.title,
+  description: WORKSPACE_CONTENT.subtitle,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={font.className}>
       <body>{children}</body>
     </html>
   );

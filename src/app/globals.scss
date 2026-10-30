@@ -2,9 +2,10 @@
 
 :root {
   color-scheme: light;
-  font-family: Arial, sans-serif;
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
   background: $background;
   color: $foreground;
+  line-height: 1.5;
 }
 
 * {
@@ -15,16 +16,13 @@ body {
   margin: 0;
 }
 
-.shell {
-  display: grid;
-  min-height: 100vh;
-  place-content: center;
-  padding: 2rem;
+a {
+  color: $primary;
 }
 
-.eyebrow {
-  color: $primary;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }

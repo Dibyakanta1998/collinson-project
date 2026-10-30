@@ -1,7 +1,7 @@
 FROM node:24.15.0-bookworm-slim AS dependencies
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install
 
 FROM dependencies AS test
 COPY . .
