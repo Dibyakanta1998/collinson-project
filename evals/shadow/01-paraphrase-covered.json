@@ -1,0 +1,11 @@
+{
+  "id": "shadow-covered",
+  "input": {
+    "policyNumber": "CL-SHADOW-001",
+    "incidentDate": "2026-10-18",
+    "delayHours": 16,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "The suitcase showed up the next afternoon."
+  }
+}

@@ -1,7 +1,7 @@
 import { runEvaluations, writeEvalReport } from '../src/evals/run';
 
 const results = await runEvaluations();
-const report = await writeEvalReport(results);
+const report = await writeEvalReport(results, 'fake');
 
 for (const result of results) {
   const mark = result.passed ? 'pass' : 'fail';
@@ -12,4 +12,4 @@ for (const result of results) {
 }
 
 if (!report.passed) process.exit(1);
-console.log(`Wrote evals/output/report.json (${results.length} cases).`);
+console.log(`Wrote evals/output/report.json (${results.length} Mastra scored cases).`);

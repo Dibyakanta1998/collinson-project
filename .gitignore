@@ -1,5 +1,7 @@
 node_modules/
 .next/
+.next-local/
+.mastra/
 coverage/
 playwright-report/
 playwright/.cache/
@@ -12,3 +14,7 @@ evals/output/
 *.tsbuildinfo
 .DS_Store
 senior ai.pdf
+.idea/
+*.swp
+.vite/
+.vitest-cache/

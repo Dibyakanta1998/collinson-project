@@ -55,15 +55,27 @@ function buildDeterministicResult(input: ClaimInput): TriageResult {
 }
 
 function coverageFor(input: ClaimInput): CoverageFinding {
-  if (input.reason === 'other' || input.delayHours < 6) {
+  if (isCustomsExclusion(input)) {
     return {
       status: 'excluded',
       confidence: 0.88,
       citations: [{
         clause: '4.4',
-        excerpt: 'Cover does not apply when the delay resulted from baggage being detained by customs.',
+        excerpt: 'Cover does not apply when the delay resulted from baggage being detained by customs',
       }],
-      rationale: 'The submitted reason or delay duration is excluded.',
+      rationale: 'The delay appears to fall under a public-authority exclusion.',
+    };
+  }
+
+  if (input.delayHours <= 6) {
+    return {
+      status: 'excluded',
+      confidence: 0.88,
+      citations: [{
+        clause: '4.2',
+        excerpt: 'Delayed for more than six consecutive hours after the traveller reaches their scheduled destination.',
+      }],
+      rationale: 'The delay does not meet the more-than-six-hours threshold.',
     };
   }
 
@@ -76,6 +88,15 @@ function coverageFor(input: ClaimInput): CoverageFinding {
     };
   }
 
+  if (input.reason !== 'airline_delay' && input.reason !== 'misrouting') {
+    return {
+      status: 'excluded',
+      confidence: 0.72,
+      citations: [],
+      rationale: 'The submitted reason is not a covered delay cause.',
+    };
+  }
+
   return {
     status: 'eligible',
     confidence: 0.93,
@@ -85,6 +106,10 @@ function coverageFor(input: ClaimInput): CoverageFinding {
     }],
     rationale: 'Delay exceeds the six-hour threshold.',
   };
+}
+
+function isCustomsExclusion(input: ClaimInput) {
+  return /customs|public authority/i.test(input.notes ?? '');
 }
 
 async function emitTimeline(

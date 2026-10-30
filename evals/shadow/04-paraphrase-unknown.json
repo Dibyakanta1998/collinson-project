@@ -1,0 +1,11 @@
+{
+  "id": "shadow-unknown",
+  "input": {
+    "policyNumber": "CL-SHADOW-004",
+    "incidentDate": "2026-10-21",
+    "delayHours": 11,
+    "reason": "unknown",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "Airline staff could not explain where the bag went."
+  }
+}

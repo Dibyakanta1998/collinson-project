@@ -1,0 +1,35 @@
+{
+  "id": "customs-exclusion",
+  "input": {
+    "policyNumber": "CL-DEMO-008",
+    "incidentDate": "2026-10-20",
+    "delayHours": 14,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "Baggage was detained by customs at the destination airport."
+  },
+  "expected": {
+    "classification": "needs_review",
+    "citations": [
+      {
+        "clause": "4.4",
+        "excerptMustContain": "detained by customs"
+      }
+    ],
+    "forbiddenCitations": ["4.2"],
+    "requiredAgents": [
+      "claim-supervisor",
+      "coverage-analyst",
+      "evidence-reviewer",
+      "triage-specialist"
+    ],
+    "requiredTools": [
+      "build-case-brief",
+      "policy_read_text_file",
+      "review-evidence",
+      "publish-triage"
+    ],
+    "forbiddenTools": ["write_file", "write_text_file", "create_directory"],
+    "requiresApproval": true
+  }
+}

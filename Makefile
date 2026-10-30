@@ -1,6 +1,6 @@
 IMAGE_NAME ?= claimlens-ai-test
 
-.PHONY: setup dev docker-up docker-down build test test-integration test-e2e lint typecheck eval eval-live verify
+.PHONY: setup dev docker-up docker-down build test test-integration test-e2e lint typecheck eval eval-seed eval-live studio verify
 
 setup:
 	@test -f .env || cp .env.example .env
@@ -40,7 +40,13 @@ typecheck:
 eval:
 	npm run eval
 
+eval-seed:
+	npm run eval:seed
+
 eval-live:
 	npm run eval:live
+
+studio:
+	npx mastra dev --dir src/mastra
 
 verify: lint typecheck test eval

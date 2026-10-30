@@ -1,7 +1,7 @@
 import { nowIso } from '@/domain/events';
 import { ClaimFailure } from '@/domain/failures';
 import type { Usage } from '@/domain/types';
-import { createClaimLensRuntime } from '@/mastra';
+import { createClaimLensRuntime } from '@/mastra/product-runtime';
 import { normalizeUsage } from '@/mastra/usage';
 
 import type { ClaimRunContext, ClaimRunOutcome, ClaimRunner } from './runner';

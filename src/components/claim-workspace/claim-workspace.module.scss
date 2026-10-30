@@ -40,7 +40,13 @@
   }
 }
 
+.stack {
+  display: grid;
+  gap: 1.25rem;
+}
+
 .panel {
+  min-width: 0;
   background: $card;
   border: 1px solid $border;
   border-radius: 1rem;

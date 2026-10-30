@@ -12,6 +12,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    fsModuleCachePath: '/tmp/claimlens-vitest-cache',
     pool: 'threads',
     coverage: {
       reporter: ['text', 'json', 'html'],

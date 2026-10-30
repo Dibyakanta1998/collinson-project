@@ -1,0 +1,10 @@
+{
+  "id": "shadow-short",
+  "input": {
+    "policyNumber": "CL-SHADOW-003",
+    "incidentDate": "2026-10-19",
+    "delayHours": 4,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"]
+  }
+}

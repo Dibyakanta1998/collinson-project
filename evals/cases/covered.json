@@ -10,9 +10,26 @@
   },
   "expected": {
     "classification": "likely_covered",
-    "requiredAgents": ["coverage-analyst", "evidence-reviewer", "triage-specialist"],
-    "requiredTools": ["build-case-brief", "policy_read_text_file", "review-evidence", "publish-triage"],
-    "forbiddenTools": ["write_file", "create_directory"],
+    "citations": [
+      {
+        "clause": "4.2",
+        "excerptMustContain": "more than six consecutive hours"
+      }
+    ],
+    "forbiddenCitations": ["4.4"],
+    "requiredAgents": [
+      "claim-supervisor",
+      "coverage-analyst",
+      "evidence-reviewer",
+      "triage-specialist"
+    ],
+    "requiredTools": [
+      "build-case-brief",
+      "policy_read_text_file",
+      "review-evidence",
+      "publish-triage"
+    ],
+    "forbiddenTools": ["write_file", "write_text_file", "create_directory"],
     "requiresApproval": true
   }
 }

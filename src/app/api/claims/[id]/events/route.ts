@@ -3,6 +3,7 @@ import { problemResponse } from '@/server/http/problems';
 import { readRequestId } from '@/server/http/request';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET(
   request: Request,
@@ -26,7 +27,7 @@ export async function GET(
   let keepAlive: ReturnType<typeof setInterval> | undefined;
 
   const stream = new ReadableStream({
-    async start(controller) {
+    start(controller) {
       const encoder = new TextEncoder();
       const send = (event: unknown) => {
         try {
@@ -36,19 +37,28 @@ export async function GET(
         }
       };
 
-      for (const event of await service.listEvents(id)) send(event);
-      unsubscribe = service.subscribe(id, send);
-      keepAlive = setInterval(() => {
-        try {
-          controller.enqueue(encoder.encode(': keepalive\n\n'));
-        } catch {
+      return new Promise<void>((resolve) => {
+        const shutdown = () => {
+          clearInterval(keepAlive);
           unsubscribe();
-        }
-      }, 15_000);
-      request.signal.addEventListener('abort', () => {
-        clearInterval(keepAlive);
-        unsubscribe();
-      }, { once: true });
+          resolve();
+        };
+
+        void (async () => {
+          for (const event of await service.listEvents(id)) send(event);
+          unsubscribe = service.subscribe(id, send);
+        })();
+
+        keepAlive = setInterval(() => {
+          try {
+            controller.enqueue(encoder.encode(': keepalive\n\n'));
+          } catch {
+            shutdown();
+          }
+        }, 15_000);
+
+        request.signal.addEventListener('abort', shutdown, { once: true });
+      });
     },
     cancel() {
       clearInterval(keepAlive);
@@ -58,7 +68,7 @@ export async function GET(
 
   return new Response(stream, {
     headers: {
-      'content-type': 'text/event-stream',
+      'content-type': 'text/event-stream; charset=utf-8',
       'cache-control': 'no-cache, no-transform',
       connection: 'keep-alive',
       'x-request-id': requestId,

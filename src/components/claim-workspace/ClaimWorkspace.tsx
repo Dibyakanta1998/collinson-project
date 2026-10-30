@@ -53,15 +53,15 @@ export function ClaimWorkspace() {
     setBusy(true);
     setMessage(null);
     setEvents([]);
+    let unsubscribe = () => {};
     try {
       const created = await createClaim(parsed.data);
-      const unsubscribe = subscribeToClaimEvents(created.id, (event) => {
+      unsubscribe = subscribeToClaimEvents(created.id, (event) => {
         setEvents((current) => [...current, event]);
       });
-      const latest = await waitForClaim(created.id);
-      unsubscribe();
-      setClaim(latest);
+      setClaim(await waitForClaim(created.id));
     } catch (error) {
+      unsubscribe();
       setMessage(error instanceof Error ? error.message : 'Triage failed.');
     } finally {
       setBusy(false);
@@ -91,7 +91,7 @@ export function ClaimWorkspace() {
         {message ? <p role="alert">{message}</p> : null}
       </header>
       <div className={styles.grid}>
-        <div className={styles.grid}>
+        <div className={styles.stack}>
           <section className={styles.panel}>
             <ClaimForm
               value={input}

@@ -2,7 +2,12 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  distDir: process.env.NEXT_DIST_DIR ?? '.next',
   poweredByHeader: false,
+  agentRules: false,
+  turbopack: {
+    root: process.cwd(),
+  },
   async headers() {
     return [{
       source: '/(.*)',

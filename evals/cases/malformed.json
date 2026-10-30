@@ -11,7 +11,12 @@
     "failureCode": "malformed_model_output",
     "requiredAgents": [],
     "requiredTools": [],
-    "forbiddenTools": ["write_file"],
+    "forbiddenTools": [
+      "write_file",
+      "write_text_file",
+      "create_directory",
+      "publish-triage"
+    ],
     "requiresApproval": false
   }
 }

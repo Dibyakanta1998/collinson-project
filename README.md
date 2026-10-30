@@ -46,13 +46,22 @@ validate model payloads with Zod and escalate if a repair still fails.
 ## Verify
 
 ```bash
-make eval            # deterministic behavioral suite, no API key
+make eval            # Mastra gold experiment, fake runner, no API key
+make eval-seed       # project JSON cases into Mastra datasets
 make test            # unit tests in Docker
 make typecheck
 make lint
-make eval-live       # checks Ollama key/model configuration
+make eval-live       # live experiment when CLAIMLENS_AGENT_MODE=live
 make verify          # lint, typecheck, tests, evals
 ```
+
+Evaluation details live in Mastra Studio, not a custom dashboard:
+
+```bash
+make studio
+```
+
+Open Studio (typically [http://localhost:4111](http://localhost:4111)): **Datasets** (`claimlens-e2e-gold`, `claimlens-live-shadow`), **Experiments** (per-item must-pass scores), and **Observability** (score a trace with the same scorers). HITL Approve / Decline stays in the Next.js workspace.
 
 `make test-e2e` runs the Playwright approval path against a local Next server.
 
@@ -94,17 +103,18 @@ token-usage records. Hidden chain-of-thought is not exposed.
 
 ## Evaluation
 
-Deterministic scorers in `evals/cases/` check:
+JSON fixtures in `evals/cases/` seed the Mastra dataset `claimlens-e2e-gold`.
+`make eval` runs `dataset.startExperiment()` against workflow `claim-triage-eval`
+and the registered function scorers:
 
-- classification vs policy/evidence rules
-- required and forbidden tools
-- specialist delegation
-- approval suspension
-- MCP and malformed-output degradation
-- PII leakage in sanitized events
+- classification, failure, required-agents, required-tools, forbidden-tools
+- approval (HITL at suspend), pii-leak, agent-tool-boundary
+- citation-verbatim, no-adjudication-language
 
-They do not score prose quality. `make eval-live` only verifies that live model
-configuration is present.
+All ten are AND-gated. `evals/output/report.json` is a dump of that Mastra
+summary. `make eval-live` uses the same scorers on the live runner and skips
+`malformed` / `mcp-failure` (fake-runner injection). It is not part of
+`make verify`.
 
 ## Demo
 

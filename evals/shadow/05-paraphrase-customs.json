@@ -1,0 +1,11 @@
+{
+  "id": "shadow-customs",
+  "input": {
+    "policyNumber": "CL-SHADOW-005",
+    "incidentDate": "2026-10-21",
+    "delayHours": 18,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "A public authority held the bag at the border."
+  }
+}

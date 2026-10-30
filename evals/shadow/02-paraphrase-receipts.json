@@ -1,0 +1,11 @@
+{
+  "id": "shadow-receipts",
+  "input": {
+    "policyNumber": "CL-SHADOW-002",
+    "incidentDate": "2026-10-19",
+    "delayHours": 10,
+    "reason": "misrouting",
+    "evidence": ["baggage_report", "travel_itinerary"],
+    "notes": "Essentials were bought but the paper receipts were left at the hotel."
+  }
+}
