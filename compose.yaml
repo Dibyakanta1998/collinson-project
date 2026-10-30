@@ -14,8 +14,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    mem_limit: 1g
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>{if(!r.ok)process.exit(1)})"]
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/ready').then(r=>{if(!r.ok)process.exit(1)})"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -31,6 +32,7 @@ services:
     volumes:
       - claimlens-data:/var/lib/postgresql/data
       - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    mem_limit: 512m
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U claimlens -d claimlens"]
       interval: 5s

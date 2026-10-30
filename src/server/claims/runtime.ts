@@ -11,7 +11,11 @@ declare global {
 }
 
 export function usesLiveAgents() {
-  return process.env.CLAIMLENS_AGENT_MODE === 'live';
+  if (process.env.CLAIMLENS_AGENT_MODE !== 'live') return false;
+  if (!process.env.OLLAMA_API_KEY || !process.env.OLLAMA_MODEL) {
+    throw new Error('Live mode requires OLLAMA_API_KEY and OLLAMA_MODEL.');
+  }
+  return true;
 }
 
 export function getClaimService(): ClaimService {
