@@ -7,7 +7,13 @@ import { createPolicyMcpClient, getPolicyTools } from './mcp/policy-client';
 import { createOllamaModel } from './model';
 import { getClaimMemory, getMastraStore } from './storage';
 
-export async function createClaimLensRuntime() {
+type ClaimLensRuntime = Awaited<ReturnType<typeof buildClaimLensRuntime>>;
+
+declare global {
+  var claimLensRuntime: Promise<ClaimLensRuntime> | undefined;
+}
+
+async function buildClaimLensRuntime() {
   const policyRoot =
     process.env.POLICY_ROOT ??
     path.join(process.cwd(), 'fixtures', 'policies');
@@ -30,4 +36,9 @@ export async function createClaimLensRuntime() {
     await policyClient.disconnect();
     throw error;
   }
+}
+
+export function createClaimLensRuntime() {
+  global.claimLensRuntime ??= buildClaimLensRuntime();
+  return global.claimLensRuntime;
 }

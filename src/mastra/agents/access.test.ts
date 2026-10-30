@@ -19,6 +19,9 @@ describe('buildAgentToolAccess', () => {
     expect(Object.keys(access.coverageAnalyst)).toContain('policy_read_text_file');
     expect(Object.keys(access.evidenceReviewer)).toEqual(['reviewEvidence']);
     expect(Object.keys(access.triageSpecialist)).toEqual([]);
-    expect(Object.keys(access.supervisor)).toEqual(['buildCaseBrief']);
+    expect(Object.keys(access.supervisor)).toEqual([
+      'buildCaseBrief',
+      'publishTriage',
+    ]);
   });
 });

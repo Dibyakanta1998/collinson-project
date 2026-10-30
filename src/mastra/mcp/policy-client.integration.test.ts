@@ -6,11 +6,11 @@ import { afterAll, describe, expect, it } from 'vitest';
 
 import { createPolicyMcpClient, getPolicyTools } from './policy-client';
 
-const client = createPolicyMcpClient(
-  path.join(process.cwd(), 'fixtures', 'policies'),
-);
-
 describe('policy MCP client', () => {
+  const client = createPolicyMcpClient(
+    path.join(process.cwd(), 'fixtures', 'policies'),
+  );
+
   afterAll(async () => {
     await client.disconnect();
   });

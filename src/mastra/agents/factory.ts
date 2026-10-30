@@ -7,6 +7,7 @@ import type { Memory } from '@mastra/memory';
 
 import { buildCaseBriefTool } from '@/mastra/tools/case-brief';
 import { reviewEvidenceTool } from '@/mastra/tools/evidence';
+import { publishTriageTool } from '@/mastra/tools/publish-triage';
 
 import { AGENT_PROMPTS } from './prompts';
 
@@ -36,7 +37,10 @@ export function buildAgentToolAccess(policyTools: ToolsInput) {
     coverageAnalyst: policyTools,
     evidenceReviewer: { reviewEvidence: reviewEvidenceTool },
     triageSpecialist: {},
-    supervisor: { buildCaseBrief: buildCaseBriefTool },
+    supervisor: {
+      buildCaseBrief: buildCaseBriefTool,
+      publishTriage: publishTriageTool,
+    },
   } satisfies Record<string, ToolsInput>;
 }
 

@@ -30,7 +30,14 @@ describeWithDatabase('PgClaimsRepository', () => {
       evidence: ['baggage_report', 'travel_itinerary', 'expense_receipts'],
     });
 
-    await repository.suspend(claim.id, 'run-123');
+    await repository.suspend(claim.id, 'run-123', {
+      classification: 'likely_covered',
+      confidence: 0.92,
+      summary: 'Claim meets the provisional requirements.',
+      nextActions: ['Await human approval.'],
+      citations: [{ clause: '4.2', excerpt: 'Delayed more than six hours.' }],
+      requiresApproval: true,
+    });
     await repository.recordApproval(claim.id, {
       decision: 'approve',
       note: 'Coverage and evidence reviewed.',
@@ -39,6 +46,7 @@ describeWithDatabase('PgClaimsRepository', () => {
     const restored = await repository.get(claim.id);
     expect(restored?.status).toBe('approved');
     expect(restored?.runId).toBe('run-123');
+    expect(restored?.result?.classification).toBe('likely_covered');
     expect(restored?.approvals).toHaveLength(1);
   });
 });

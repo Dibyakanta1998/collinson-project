@@ -8,9 +8,11 @@ export default defineConfig({
       '@': new URL('./src', import.meta.url).pathname,
     },
   },
+  cacheDir: '/tmp/claimlens-vite',
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    pool: 'threads',
     coverage: {
       reporter: ['text', 'json', 'html'],
     },

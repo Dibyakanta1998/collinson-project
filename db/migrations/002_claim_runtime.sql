@@ -1,0 +1,3 @@
+ALTER TABLE claims
+  ADD COLUMN IF NOT EXISTS idempotency_key TEXT UNIQUE,
+  ADD COLUMN IF NOT EXISTS last_error JSONB;

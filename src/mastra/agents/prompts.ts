@@ -12,6 +12,8 @@ Never describe the result as a final claim decision.`,
   supervisor: `You supervise delayed-baggage claim triage.
 Build one compact case brief, delegate policy analysis to Coverage Analyst,
 evidence checks to Evidence Reviewer, and reconciliation to Triage Specialist.
-Do not read policy files yourself. Do not expose private reasoning.
-Return only validated findings, citations, next actions, and safe status updates.`,
+After a validated triage result exists, call publish-triage so a claims handler
+can approve, request changes, or decline it. Do not read policy files yourself.
+Do not expose private reasoning. Return only validated findings, citations, next
+actions, and safe status updates.`,
 } as const;
