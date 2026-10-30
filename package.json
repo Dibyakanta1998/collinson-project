@@ -17,7 +17,7 @@
     "migrate": "tsx scripts/migrate.ts"
   },
   "dependencies": {
-    "@ai-sdk/openai-compatible": "^3.0.81",
+    "@ai-sdk/openai-compatible": "3.0.71",
     "@mastra/core": "^1.80.0",
     "@mastra/mcp": "^2.6.0",
     "@mastra/memory": "^1.39.1",
