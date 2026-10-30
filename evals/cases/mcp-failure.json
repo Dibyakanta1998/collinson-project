@@ -1,0 +1,18 @@
+{
+  "id": "mcp-failure",
+  "input": {
+    "policyNumber": "CL-MCP-001",
+    "incidentDate": "2026-10-22",
+    "delayHours": 14,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "Force mcp outage"
+  },
+  "expected": {
+    "failureCode": "mcp_unavailable",
+    "requiredAgents": [],
+    "requiredTools": [],
+    "forbiddenTools": ["write_file"],
+    "requiresApproval": false
+  }
+}

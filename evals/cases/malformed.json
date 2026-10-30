@@ -1,0 +1,17 @@
+{
+  "id": "malformed",
+  "input": {
+    "policyNumber": "CL-MALFORMED-001",
+    "incidentDate": "2026-10-22",
+    "delayHours": 14,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"]
+  },
+  "expected": {
+    "failureCode": "malformed_model_output",
+    "requiredAgents": [],
+    "requiredTools": [],
+    "forbiddenTools": ["write_file"],
+    "requiresApproval": false
+  }
+}

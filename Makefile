@@ -1,12 +1,13 @@
 IMAGE_NAME ?= claimlens-ai-test
 
-.PHONY: setup dev docker-up docker-down build test lint typecheck verify
+.PHONY: setup dev docker-up docker-down build test test-integration test-e2e lint typecheck eval eval-live verify
 
 setup:
 	@test -f .env || cp .env.example .env
 	npm install
 
-dev: docker-up
+dev:
+	npx next dev
 
 docker-up:
 	docker compose up --build
@@ -21,6 +22,13 @@ test:
 	docker build --target test -t $(IMAGE_NAME) .
 	docker run --rm $(IMAGE_NAME) npm test
 
+test-integration:
+	docker build --target test -t $(IMAGE_NAME) .
+	docker run --rm $(IMAGE_NAME) npm run test:integration
+
+test-e2e:
+	npm run test:e2e
+
 lint:
 	docker build --target test -t $(IMAGE_NAME) .
 	docker run --rm $(IMAGE_NAME) npm run lint
@@ -29,4 +37,10 @@ typecheck:
 	docker build --target test -t $(IMAGE_NAME) .
 	docker run --rm $(IMAGE_NAME) npm run typecheck
 
-verify: lint typecheck test build
+eval:
+	npm run eval
+
+eval-live:
+	npm run eval:live
+
+verify: lint typecheck test eval

@@ -1,0 +1,18 @@
+{
+  "id": "covered",
+  "input": {
+    "policyNumber": "CL-DEMO-001",
+    "incidentDate": "2026-10-20",
+    "delayHours": 14,
+    "reason": "airline_delay",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"],
+    "notes": "Baggage arrived the following morning."
+  },
+  "expected": {
+    "classification": "likely_covered",
+    "requiredAgents": ["coverage-analyst", "evidence-reviewer", "triage-specialist"],
+    "requiredTools": ["build-case-brief", "policy_read_text_file", "review-evidence", "publish-triage"],
+    "forbiddenTools": ["write_file", "create_directory"],
+    "requiresApproval": true
+  }
+}

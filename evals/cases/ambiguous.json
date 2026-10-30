@@ -1,0 +1,17 @@
+{
+  "id": "ambiguous",
+  "input": {
+    "policyNumber": "CL-DEMO-004",
+    "incidentDate": "2026-10-22",
+    "delayHours": 12,
+    "reason": "unknown",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"]
+  },
+  "expected": {
+    "classification": "insufficient_information",
+    "requiredAgents": ["coverage-analyst", "triage-specialist"],
+    "requiredTools": ["publish-triage"],
+    "forbiddenTools": ["write_file"],
+    "requiresApproval": true
+  }
+}

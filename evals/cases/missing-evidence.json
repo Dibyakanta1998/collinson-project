@@ -1,0 +1,17 @@
+{
+  "id": "missing-evidence",
+  "input": {
+    "policyNumber": "CL-DEMO-002",
+    "incidentDate": "2026-10-21",
+    "delayHours": 9,
+    "reason": "misrouting",
+    "evidence": ["baggage_report", "travel_itinerary"]
+  },
+  "expected": {
+    "classification": "needs_review",
+    "requiredAgents": ["evidence-reviewer", "triage-specialist"],
+    "requiredTools": ["review-evidence", "publish-triage"],
+    "forbiddenTools": ["write_file"],
+    "requiresApproval": true
+  }
+}

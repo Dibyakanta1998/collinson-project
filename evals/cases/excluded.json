@@ -1,0 +1,17 @@
+{
+  "id": "excluded",
+  "input": {
+    "policyNumber": "CL-DEMO-003",
+    "incidentDate": "2026-10-22",
+    "delayHours": 2,
+    "reason": "other",
+    "evidence": ["baggage_report", "travel_itinerary", "expense_receipts"]
+  },
+  "expected": {
+    "classification": "needs_review",
+    "requiredAgents": ["coverage-analyst", "triage-specialist"],
+    "requiredTools": ["policy_read_text_file", "publish-triage"],
+    "forbiddenTools": ["write_file"],
+    "requiresApproval": true
+  }
+}
