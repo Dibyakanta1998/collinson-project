@@ -1,11 +1,13 @@
-import { nowIso } from '@/domain/events';
+import { nowIso, type ClaimEvent } from '@/domain/events';
 import { ClaimFailure } from '@/domain/failures';
 import type { Usage } from '@/domain/types';
 import { createClaimLensRuntime } from '@/mastra/product-runtime';
 import { normalizeUsage } from '@/mastra/usage';
 
 import type { ClaimRunContext, ClaimRunOutcome, ClaimRunner } from './runner';
-import { extractSuspendedTriage, mapMastraChunk } from './stream-events';
+import { log } from '@/server/log';
+
+import { extractSuspendedTriage, MastraTraceMapper } from './stream-events';
 
 const runTimeoutMs = 60_000;
 
@@ -26,9 +28,12 @@ export class MastraClaimRunner implements ClaimRunner {
         },
       });
 
+      const mapper = new MastraTraceMapper();
       for await (const chunk of stream.fullStream) {
-        const event = mapMastraChunk(chunk as { type: string; payload?: Record<string, unknown> });
-        if (event) await emit(event);
+        const event = mapper.map(chunk as { type: string; payload?: Record<string, unknown> });
+        if (!event) continue;
+        logTrace(event);
+        await emit(event);
       }
 
       const output = await stream.getFullOutput();
@@ -87,6 +92,15 @@ async function emitUsage(
     },
   ) satisfies Usage;
   await emit({ type: 'usage', usage: normalized, occurredAt: nowIso() });
+}
+
+function logTrace(event: ClaimEvent) {
+  log('info', 'claim trace', {
+    type: event.type,
+    agentId: 'agentId' in event ? event.agentId : undefined,
+    toolId: event.type === 'tool_call' ? event.toolId : undefined,
+    status: 'status' in event ? String(event.status) : undefined,
+  });
 }
 
 function readTokenCount(value: { total?: number } | number | undefined) {

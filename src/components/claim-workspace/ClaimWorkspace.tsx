@@ -58,6 +58,9 @@ export function ClaimWorkspace() {
       const created = await createClaim(parsed.data);
       unsubscribe = subscribeToClaimEvents(created.id, (event) => {
         setEvents((current) => [...current, event]);
+        if (event.type === 'approval_required' || event.type === 'completed' || event.type === 'error') {
+          void getClaim(created.id).then(setClaim);
+        }
       });
       setClaim(await waitForClaim(created.id));
     } catch (error) {
@@ -117,13 +120,14 @@ export function ClaimWorkspace() {
   );
 }
 
+const TERMINAL_STATUSES = ['suspended', 'failed', 'approved', 'declined', 'changes_requested'];
+
 async function waitForClaim(id: string) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+  const deadline = Date.now() + 70_000;
+  while (Date.now() < deadline) {
     const claim = await getClaim(id);
-    if (['suspended', 'failed', 'approved', 'declined', 'changes_requested'].includes(claim.status)) {
-      return claim;
-    }
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    if (TERMINAL_STATUSES.includes(claim.status)) return claim;
+    await new Promise((resolve) => setTimeout(resolve, 250));
   }
   return getClaim(id);
 }

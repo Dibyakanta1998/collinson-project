@@ -5,6 +5,7 @@ import { Mastra } from '@mastra/core/mastra';
 import { createClaimAgents } from './agents/factory';
 import { createPolicyMcpClient, getPolicyTools } from './mcp/policy-client';
 import { createOllamaModel } from './model';
+import { createClaimLensLogger, createClaimLensObservability } from './observability';
 import { getClaimMemory, getMastraStore } from './storage';
 
 type ClaimLensRuntime = Awaited<ReturnType<typeof buildClaimLensRuntime>>;
@@ -29,6 +30,8 @@ async function buildClaimLensRuntime() {
     const mastra = new Mastra({
       agents,
       storage: getMastraStore(),
+      logger: createClaimLensLogger(),
+      observability: createClaimLensObservability(),
     });
 
     return { mastra, policyClient, agents };

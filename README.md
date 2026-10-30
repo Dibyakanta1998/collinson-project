@@ -102,6 +102,10 @@ flowchart TB
 `make eval` and `make studio` do not share InMemory datasets. Seed Studio over
 its HTTP API, or set `DATABASE_URL` so both processes use Postgres.
 
+Live Next.js runs write Mastra spans and logs into that store. Open Studio
+**Observability** with the same `DATABASE_URL` to inspect traces. The claim
+workspace maps the same stream into the agent/tool timeline (no model text).
+
 ### Agent and tool boundaries
 
 - **Supervisor** builds a compact case brief, delegates, and calls `publish-triage`. It cannot read policy files.

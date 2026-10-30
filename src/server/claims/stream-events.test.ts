@@ -18,6 +18,15 @@ describe('stream event mapping', () => {
     });
   });
 
+  it('normalizes Mastra camelCase tools and specialist agent tools', () => {
+    expect(
+      mapMastraChunk({ type: 'tool-call', payload: { toolName: 'buildCaseBrief' } }),
+    ).toMatchObject({ type: 'tool_call', toolId: 'build-case-brief', agentId: 'claim-supervisor' });
+    expect(
+      mapMastraChunk({ type: 'tool-call', payload: { toolName: 'agent-coverageAnalyst' } }),
+    ).toMatchObject({ type: 'agent_status', agentId: 'coverage-analyst', status: 'running' });
+  });
+
   it('reads triage from a nested suspend payload', () => {
     const triage = extractSuspendedTriage({
       suspendPayload: {
