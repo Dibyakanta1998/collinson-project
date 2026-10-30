@@ -1,0 +1,11 @@
+{
+  "policyNumber": "CL-DEMO-002",
+  "incidentDate": "2026-10-21",
+  "delayHours": 9,
+  "reason": "misrouting",
+  "evidence": [
+    "baggage_report",
+    "travel_itinerary"
+  ],
+  "notes": "Essential items were purchased but the receipts were misplaced."
+}

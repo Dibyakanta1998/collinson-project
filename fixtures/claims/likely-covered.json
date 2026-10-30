@@ -1,0 +1,12 @@
+{
+  "policyNumber": "CL-DEMO-001",
+  "incidentDate": "2026-10-20",
+  "delayHours": 14,
+  "reason": "airline_delay",
+  "evidence": [
+    "baggage_report",
+    "travel_itinerary",
+    "expense_receipts"
+  ],
+  "notes": "Baggage arrived the following morning."
+}
