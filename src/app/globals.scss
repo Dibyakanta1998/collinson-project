@@ -1,0 +1,30 @@
+@use '../styles/colors' as *;
+
+:root {
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+  background: $background;
+  color: $foreground;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  padding: 2rem;
+}
+
+.eyebrow {
+  color: $primary;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

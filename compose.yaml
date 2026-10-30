@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: postgresql://claimlens:claimlens@db:5432/claimlens
+      OLLAMA_API_KEY: ${OLLAMA_API_KEY:-}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-https://ollama.com/v1}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+      POLICY_ROOT: /app/fixtures/policies
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: claimlens
+      POSTGRES_USER: claimlens
+      POSTGRES_PASSWORD: claimlens
+    ports:
+      - "5432:5432"
+    volumes:
+      - claimlens-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U claimlens -d claimlens"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  claimlens-data:
