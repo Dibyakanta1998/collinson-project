@@ -12,12 +12,18 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-padding-top: 4.5rem;
+  scroll-padding-bottom: 12rem;
+}
+
 body {
   margin: 0;
+  background: $background;
 }
 
 a {
-  color: $primary;
+  color: $accent;
 }
 
 button,
@@ -25,4 +31,11 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: anywhere;
 }

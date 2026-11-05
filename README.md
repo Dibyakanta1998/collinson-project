@@ -108,6 +108,28 @@ workspace maps the same stream into the agent/tool timeline (no model text).
 
 ### Agent and tool boundaries
 
+```mermaid
+flowchart TD
+  claim[Claim JSON] --> supervisor[claim-supervisor]
+
+  supervisor --> brief[build-case-brief]
+  supervisor --> coverage[coverage-analyst]
+  supervisor --> evidence[evidence-reviewer]
+  supervisor --> triage[triage-specialist]
+  supervisor --> publish[publish-triage]
+
+  coverage --> mcp[policy MCP read-only]
+  mcp --> policy[fixtures policies]
+
+  evidence --> review[review-evidence]
+
+  triage --> notools[no tools]
+
+  publish --> suspend[suspend]
+  suspend --> human[Approve, Change, or Decline]
+  human --> resume[resumeGenerate]
+```
+
 - **Supervisor** builds a compact case brief, delegates, and calls `publish-triage`. It cannot read policy files.
 - **Coverage Analyst** receives only read-only MCP list/search/read tools.
 - **Evidence Reviewer** receives the deterministic evidence checklist tool.

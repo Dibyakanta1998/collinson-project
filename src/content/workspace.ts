@@ -1,10 +1,15 @@
 export const WORKSPACE_CONTENT = {
+  skipToForm: 'Skip to claim details',
   eyebrow: 'ClaimLens AI',
   title: 'Delayed-baggage claim triage',
   subtitle:
     'Provisional coverage guidance for a claims handler. This is not an automated claim decision.',
   disclaimer:
     'Results stay unpublished until a human approves, requests changes, or declines them.',
+  provisionalLabel: 'Provisional',
+  modeLive: 'Live agents',
+  modeFake: 'Deterministic',
+  idleStatus: 'Idle',
   formLegend: 'Claim details',
   policyNumber: 'Policy number',
   incidentDate: 'Incident date',
@@ -18,7 +23,7 @@ export const WORKSPACE_CONTENT = {
   resultTitle: 'Provisional result',
   evidenceTitle: 'Evidence checklist',
   citationsTitle: 'Policy citations',
-  traceTitle: 'Agent and tool trace',
+  traceTitle: 'Agent and tool activity',
   usageTitle: 'Token usage',
   approvalTitle: 'Human approval',
   approvalNote: 'Approval note',
@@ -27,8 +32,10 @@ export const WORKSPACE_CONTENT = {
   decline: 'Decline',
   emptyTrace: 'Submit a claim to watch delegation, tool calls, and usage.',
   emptyResult: 'No triage result yet.',
-  loadCovered: 'Load covered example',
-  loadMissing: 'Load missing-receipts example',
+  examplesLabel: 'Examples',
+  loadCovered: 'Covered',
+  loadMissing: 'Missing receipts',
+  noCitation: 'No clause cited.',
   reasons: {
     airline_delay: 'Airline delay',
     misrouting: 'Misrouting',

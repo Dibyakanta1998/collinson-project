@@ -9,22 +9,19 @@ export function ResultPanel({ claim }: { claim: StoredClaim | null }) {
   const badgeClass =
     classification === 'likely_covered' ? styles.covered
       : classification === 'needs_review' ? styles.review
-        : claim?.status === 'failed' ? styles.failed
+        : claim?.status === 'failed' || claim?.status === 'declined' ? styles.failed
           : styles.running;
 
   return (
     <section className={styles.panel} aria-labelledby="result-heading">
-      <div>
-        <h2 id="result-heading">{copy.resultTitle}</h2>
+      <div className={styles.resultMeta}>
+        <h2 id="result-heading" className={styles.heading}>{copy.resultTitle}</h2>
         {claim ? (
-          <>
-            <span className={`${styles.badge} ${badgeClass}`}>
-              {result
-                ? copy.classifications[result.classification]
-                : copy.statuses[claim.status]}
-            </span>
-            <p>{copy.statuses[claim.status]}</p>
-          </>
+          <span className={`${styles.badge} ${badgeClass}`}>
+            {result
+              ? copy.classifications[result.classification]
+              : copy.statuses[claim.status]}
+          </span>
         ) : null}
       </div>
       {claim?.lastError ? <p role="alert">{claim.lastError.message}</p> : null}
@@ -32,7 +29,7 @@ export function ResultPanel({ claim }: { claim: StoredClaim | null }) {
         <>
           <p>{result.summary}</p>
           <section aria-labelledby="evidence-heading">
-            <h3 id="evidence-heading">{copy.evidenceTitle}</h3>
+            <h3 id="evidence-heading" className={styles.subheading}>{copy.evidenceTitle}</h3>
             <ul>
               {result.nextActions.map((action) => (
                 <li key={action}>{action}</li>
@@ -40,9 +37,9 @@ export function ResultPanel({ claim }: { claim: StoredClaim | null }) {
             </ul>
           </section>
           <section aria-labelledby="citations-heading">
-            <h3 id="citations-heading">{copy.citationsTitle}</h3>
+            <h3 id="citations-heading" className={styles.subheading}>{copy.citationsTitle}</h3>
             {result.citations.length === 0 ? (
-              <p className={styles.muted}>No clause cited.</p>
+              <p className={styles.muted}>{copy.noCitation}</p>
             ) : (
               <ul>
                 {result.citations.map((citation) => (

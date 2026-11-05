@@ -12,8 +12,8 @@ interface ApprovalBarProps {
 
 export function ApprovalBar({ note, disabled, onNoteChange, onDecide }: ApprovalBarProps) {
   return (
-    <section className={styles.panel} aria-labelledby="approval-heading">
-      <h2 id="approval-heading">{copy.approvalTitle}</h2>
+    <section className={`${styles.panel} ${styles.hitl}`} aria-labelledby="approval-heading">
+      <h2 id="approval-heading" className={styles.heading}>{copy.approvalTitle}</h2>
       <label className={styles.field} htmlFor="approval-note">
         <span className={styles.label}>{copy.approvalNote}</span>
         <textarea
@@ -27,7 +27,7 @@ export function ApprovalBar({ note, disabled, onNoteChange, onDecide }: Approval
       <div className={styles.approvalActions}>
         <button
           type="button"
-          className={`${styles.button} ${styles.success}`}
+          className={styles.button}
           disabled={disabled}
           onClick={() => onDecide('approve')}
         >

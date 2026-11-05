@@ -52,7 +52,7 @@ vi.mock('@/lib/claims-api', () => ({
 describe('ClaimWorkspace', () => {
   it('submits a claim and exposes approval controls', async () => {
     const user = userEvent.setup();
-    render(<ClaimWorkspace />);
+    render(<ClaimWorkspace mode="fake" />);
 
     await user.click(screen.getByRole('button', { name: copy.submit }));
 

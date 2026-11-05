@@ -25,7 +25,9 @@ export function ClaimForm({ value, disabled, errors, onChange, onSubmit }: Claim
 
   return (
     <form
+      id="claim-form"
       className={styles.form}
+      aria-busy={disabled}
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();
@@ -126,24 +128,24 @@ export function ClaimForm({ value, disabled, errors, onChange, onSubmit }: Claim
         </label>
       </fieldset>
 
-      <div className={styles.exampleRow}>
-        <button
-          type="button"
-          className={styles.secondary}
-          onClick={() => onChange(coveredExample)}
-        >
-          {copy.loadCovered}
-        </button>
-        <button
-          type="button"
-          className={styles.secondary}
-          onClick={() => onChange(missingReceiptsExample)}
-        >
-          {copy.loadMissing}
-        </button>
-      </div>
-
-      <div className={styles.actions}>
+      <div className={styles.formFooter}>
+        <p className={styles.exampleLabel}>{copy.examplesLabel}</p>
+        <div className={styles.exampleRow}>
+          <button
+            type="button"
+            className={styles.secondary}
+            onClick={() => onChange(coveredExample)}
+          >
+            {copy.loadCovered}
+          </button>
+          <button
+            type="button"
+            className={styles.secondary}
+            onClick={() => onChange(missingReceiptsExample)}
+          >
+            {copy.loadMissing}
+          </button>
+        </div>
         <button type="submit" className={styles.button} disabled={disabled}>
           {disabled ? copy.submitting : copy.submit}
         </button>

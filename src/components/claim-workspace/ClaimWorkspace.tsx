@@ -16,11 +16,18 @@ import type { StoredClaim } from '@/server/db/claims-repository';
 
 import { ApprovalBar } from './ApprovalBar';
 import { ClaimForm } from './ClaimForm';
+import { ShieldIcon } from './Icons';
 import { ResultPanel } from './ResultPanel';
 import { TracePanel } from './TracePanel';
 import styles from './claim-workspace.module.scss';
 
-export function ClaimWorkspace() {
+const TERMINAL_STATUSES = ['suspended', 'failed', 'approved', 'declined', 'changes_requested'];
+
+interface ClaimWorkspaceProps {
+  mode: 'live' | 'fake';
+}
+
+export function ClaimWorkspace({ mode }: ClaimWorkspaceProps) {
   const [input, setInput] = useState<ClaimInput>(coveredExample);
   const [errors, setErrors] = useState<string[]>([]);
   const [claim, setClaim] = useState<StoredClaim | null>(null);
@@ -86,25 +93,40 @@ export function ClaimWorkspace() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <p className={styles.eyebrow}>{copy.eyebrow}</p>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p className={styles.subtitle}>{copy.subtitle}</p>
-        <p className={styles.disclaimer}>{copy.disclaimer}</p>
-        {message ? <p role="alert">{message}</p> : null}
+      <a className={styles.skip} href="#claim-form">{copy.skipToForm}</a>
+      <header className={styles.shell}>
+        <div className={styles.brand}>
+          <ShieldIcon className={styles.icon} />
+          <div className={styles.brandText}>
+            <p className={styles.eyebrow}>{copy.eyebrow}</p>
+            <h1 className={styles.title}>{copy.title}</h1>
+          </div>
+        </div>
+        <p className={styles.liveStatus} role="status" aria-atomic="true">
+          {runStatusLabel(claim, running)}
+        </p>
+        <div className={styles.meta}>
+          <span className={styles.chip}>{mode === 'live' ? copy.modeLive : copy.modeFake}</span>
+          <span className={styles.chip}>{copy.provisionalLabel}</span>
+        </div>
       </header>
+      <div className={styles.banner}>
+        <p className={styles.disclaimer}>{copy.subtitle} {copy.disclaimer}</p>
+        {message ? <p className={styles.alert} role="alert">{message}</p> : null}
+      </div>
       <div className={styles.grid}>
-        <div className={styles.stack}>
-          <section className={styles.panel}>
-            <ClaimForm
-              value={input}
-              disabled={running}
-              errors={errors}
-              onChange={setInput}
-              onSubmit={() => void runTriage()}
-            />
-          </section>
+        <section className={styles.panel}>
+          <ClaimForm
+            value={input}
+            disabled={running}
+            errors={errors}
+            onChange={setInput}
+            onSubmit={() => void runTriage()}
+          />
+        </section>
+        <div className={styles.outcome}>
           <ResultPanel claim={claim} />
+          <TracePanel events={uniqueEvents} />
           {awaitingApproval ? (
             <ApprovalBar
               note={note}
@@ -114,13 +136,17 @@ export function ClaimWorkspace() {
             />
           ) : null}
         </div>
-        <TracePanel events={uniqueEvents} />
       </div>
     </div>
   );
 }
 
-const TERMINAL_STATUSES = ['suspended', 'failed', 'approved', 'declined', 'changes_requested'];
+function runStatusLabel(claim: StoredClaim | null, running: boolean) {
+  if (claim?.status === 'suspended') return copy.statuses.suspended;
+  if (running) return copy.submitting;
+  if (!claim) return copy.idleStatus;
+  return copy.statuses[claim.status];
+}
 
 async function waitForClaim(id: string) {
   const deadline = Date.now() + 70_000;
